@@ -105,7 +105,6 @@
       "14:30 - 16:30": { eje: "Escritura y tutorías", coordinacion: "Natalia Sgreccia - Angélica Sangronis" }
     };
 
-    // Colección de ponencias con los 21 nombres exactamente sincronizados
     const papers = [
       // === BLOQUE 1: 9:00 - 11:00 ===
       { 
@@ -120,7 +119,8 @@
         time: "9:00 - 11:00", 
         title: "Investigación formativa en carreras de grado: hacia una didáctica de la investigación científica en la Universidad de Flores", 
         authors: [{ name: "Gómez Zeliz, Julieta", email: "julietaclarago@gmail.com" }],
-        file: "GT 02.02 GOMEZ ZELIZ.pdf" // Renombrado sin tilde
+        file: "GT 02.02 GOMEZ ZELIZ.pdf",
+        fallback: "GT 02.02 GÓMEZ ZELIZ.pdf"
       },
       { 
         id: "GT 02.04", 
@@ -171,7 +171,8 @@
         time: "11:00 - 13:00", 
         title: "Doctorados en Educación en Argentina: ¿Aporte a la excelencia del conocimiento o extensión de la escolarización?", 
         authors: [{ name: "Lusquiños, Corina", email: "clusquinos@gmail.com" }],
-        file: "GT 02.08 LUSQUINOS.pdf" // Renombrado con N y un espacio
+        file: "GT 02.08  LUSQUINOS.pdf", // Con doble espacio
+        fallback: "GT 02.08 LUSQUINOS.pdf" // Con un solo espacio
       },
       { 
         id: "GT 02.13", 
@@ -206,7 +207,8 @@
         time: "11:00 - 13:00", 
         title: "Arte, empiria y colaboración: un dispositivo didáctico para la formación del oficio de investigar en el posgrado", 
         authors: [{ name: "Agulló, Marcela", email: "marceagullo@gmail.com" }, { name: "De Angelis, Susan", email: "susan.de.angelis@gmail.com" }, { name: "Monteverde, Ana Clara", email: "anaclaramonteverdegmail.com" }],
-        file: "GT 02.21 AGULLO.pdf" // Renombrado sin tilde
+        file: "GT 02.21 AGULLO.pdf",
+        fallback: "GT 02.21 AGULLÓ.pdf"
       },
 
       // === BLOQUE 3: 14:30 - 16:30 ===
@@ -352,7 +354,7 @@
             </span>
           `).join('');
 
-          // Enlace directo nativo, exactamente igual que los 18 que ya funcionan
+          // Enlace directo
           const pdfUrl = `resumenes/${encodeURI(p.file)}`;
 
           card.innerHTML = `

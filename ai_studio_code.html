@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GT 02 - Cronograma de Ponencias | SAIE</title>
+  
+  <!-- Tailwind CSS CDN para un diseño moderno y responsivo -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .card-print { break-inside: avoid; border: 1px solid #ddd !important; box-shadow: none !important; }
+    }
+    .highlight {
+      background-color: #fef08a;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- HEADER / HERO -->
+  <header class="bg-gradient-to-r from-slate-900 via-brand-900 to-indigo-900 text-white shadow-lg border-b border-indigo-500/20">
+    <div class="max-w-6xl mx-auto px-4 py-8 sm:py-10">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/20 text-indigo-200 border border-indigo-400/30 text-xs font-semibold uppercase tracking-wider mb-3">
+            <span>📅 Sesión Jueves 01/10</span>
+            <span>•</span>
+            <span>GT 02</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+            Formación para la Investigación en Educación
+          </h1>
+          <p class="text-indigo-200 mt-2 text-sm sm:text-base max-w-2xl">
+            Cronograma oficial de ponencias, ejes temáticos, autores y coordinación del Grupo de Trabajo.
+          </p>
+        </div>
+
+        <!-- Acciones rápidas -->
+        <div class="flex flex-wrap gap-2 sm:gap-3 no-print">
+          <button onclick="window.print()" class="inline-flex items-center gap-2 px-3.5 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-sm font-medium transition backdrop-blur-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            Imprimir / PDF
+          </button>
+          <a href="#coloquio" class="inline-flex items-center gap-2 px-3.5 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-sm font-medium transition shadow">
+            Ver Coloquio
+          </a>
+        </div>
+      </div>
+
+      <!-- Barra de estadísticas rápidas -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm">
+        <div class="bg-white/5 backdrop-blur-sm p-3 rounded-lg border border-white/10">
+          <span class="text-indigo-300 block">Total Trabajos</span>
+          <span class="text-xl font-bold text-white">21 ponencias</span>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm p-3 rounded-lg border border-white/10">
+          <span class="text-indigo-300 block">Bloques Horarios</span>
+          <span class="text-xl font-bold text-white">3 sesiones</span>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm p-3 rounded-lg border border-white/10">
+          <span class="text-indigo-300 block">Jornada</span>
+          <span class="text-xl font-bold text-white">09:00 a 16:30 hs</span>
+        </div>
+        <div class="bg-white/5 backdrop-blur-sm p-3 rounded-lg border border-white/10">
+          <span class="text-indigo-300 block">Mi Agenda</span>
+          <span id="savedCountBadge" class="text-xl font-bold text-amber-300">0 guardadas</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full" id="coloquio">
+    
+    <!-- CONTROLES, FILTROS Y BÚSQUEDA -->
+    <div class="no-print bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 mb-8 space-y-4">
+      <div class="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center">
+        
+        <!-- Buscador en tiempo real -->
+        <div class="relative flex-1">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Buscar por título, autor, GT ID o correo..." 
+            class="w-full pl-10 pr-10 py-2.5 bg-slate-50 hover:bg-slate-100/70 focus:bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+          />
+          <button id="clearSearch" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+            ✕
+          </button>
+        </div>
+
+        <!-- Selector de visualización (Tarjetas vs Tabla) -->
+        <div class="flex items-center bg-slate-100 p-1 rounded-xl self-end md:self-auto text-xs font-medium">
+          <button id="viewCardsBtn" onclick="setViewMode('cards')" class="px-3 py-1.5 rounded-lg bg-white shadow-sm text-slate-800 transition">
+            ⊞ Tarjetas
+          </button>
+          <button id="viewTableBtn" onclick="setViewMode('table')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">
+            ☰ Tabla
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtros por Pestaña de Horario -->
+      <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-100 text-sm">
+        <button onclick="setFilter('all')" class="tab-btn active px-3.5 py-1.5 rounded-lg font-medium transition bg-brand-600 text-white" data-filter="all">
+          Todas (21)
+        </button>
+        <button onclick="setFilter('9:00 - 11:00')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-filter="9:00 - 11:00">
+          09:00 - 11:00 (Grado)
+        </button>
+        <button onclick="setFilter('11:00 - 13:00')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-filter="11:00 - 13:00">
+          11:00 - 13:00 (Posgrado)
+        </button>
+        <button onclick="setFilter('14:30 - 16:30')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200" data-filter="14:30 - 16:30">
+          14:30 - 16:30 (Escritura y Tutorías)
+        </button>
+        <button onclick="setFilter('favorites')" class="tab-btn px-3.5 py-1.5 rounded-lg font-medium transition bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/60" data-filter="favorites">
+          ⭐ Mi Agenda (<span id="favBtnCount">0</span>)
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTADOR DE RESULTADOS -->
+    <div class="flex justify-between items-center text-xs text-slate-500 mb-4 px-1">
+      <span id="resultsCount">Mostrando 21 ponencias</span>
+      <span id="activeFilterLabel" class="font-medium text-slate-700">Filtro: Todas las sesiones</span>
+    </div>
+
+    <!-- CONTENEDOR DE SESIONES Y TRABAJOS -->
+    <div id="sessionsContainer" class="space-y-10">
+      <!-- Se inyecta dinámicamente con JS -->
+    </div>
+
+    <!-- ESTADO VACÍO (NO ENCONTRADO) -->
+    <div id="emptyState" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 my-8 p-6">
+      <div class="w-16 h-16 mx-auto mb-4 text-slate-300">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3 class="text-base font-semibold text-slate-700">No se encontraron ponencias</h3>
+      <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">No hay resultados que coincidan con el criterio o los filtros seleccionados.</p>
+      <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold">
+        Restablecer filtros
+      </button>
+    </div>
+
+  </main>
+
+  <!-- TOAST DE COPIADO -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-xl translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center gap-2">
+    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    <span id="toastMsg">Correo copiado al portapapeles</span>
+  </div>
+
+  <footer class="bg-white border-t border-slate-200 mt-16 py-6 text-center text-xs text-slate-500">
+    <p>Grupo de Trabajo 02 (GT 02) • Jornadas y Coloquios de Investigación Educativa</p>
+    <p class="mt-1">Sitio responsivo interactivo generado para el cronograma del evento</p>
+  </footer>
+
+  <!-- SCRIPT DE DATOS Y LÓGICA -->
+  <script>
+    // 1. Datos completos del cronograma extraídos del CSV
+    const sessionMetadata = {
+      "9:00 - 11:00": {
+        eje: "Formación en Investigación en carreras de grado",
+        coordinacion: "Celia Galvalisi - Lilián Betancur",
+        badgeColor: "bg-blue-100 text-blue-800 border-blue-200"
+      },
+      "11:00 - 13:00": {
+        eje: "Formación en Investigación en carreras de posgrado",
+        coordinacion: "Liliana Sanjurjo - Sandra Pittet - Corina Lusquiños",
+        badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-200"
+      },
+      "14:30 - 16:30": {
+        eje: "Escritura y tutorías",
+        coordinacion: "Natalia Sgreccia - Angélica Sangronis",
+        badgeColor: "bg-purple-100 text-purple-800 border-purple-200"
+      }
+    };
+
+    const papers = [
+      // Bloque 1
+      {
+        id: "GT 02.01",
+        time: "9:00 - 11:00",
+        title: "La formación para la investigación. Una discusión imprescindible en la eduación universitaria argentina",
+        authors: [
+          { name: "Galvalisi, Celia Fabiana", email: "cgalvalisi@unvm.edu.ar" }
+        ]
+      },
+      {
+        id: "GT 02.02",
+        time: "9:00 - 11:00",
+        title: "Investigación formativa en carreras de grado: hacia una didáctica de la investigación científica en la Universidad de Flores",
+        authors: [
+          { name: "Gómez Zeliz, Julieta", email: "julietaclarago@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.04",
+        time: "9:00 - 11:00",
+        title: "Reflexiones iniciales sobre la formación en investigación en el Nivel superior de la localidad de Esquel",
+        authors: [
+          { name: "Acciaresi, Pablo", email: "pablo.acciaresi@gmail.com" },
+          { name: "Favier, Anabel", email: "favieranabel@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.09",
+        time: "9:00 - 11:00",
+        title: "Investigación formativa en Ciencias de la Educación: los niveles de complejidad de los objetivos generales de estudiantes de la Universidad Nacional del Sur",
+        authors: [
+          { name: "Agarraberes, María Paz", email: "mpazagarraberes@gmail.com" },
+          { name: "Pergolesi Fuentes, Huilén", email: "huilenpergolesifuentes@gmail.com" },
+          { name: "Aguinaga, Ailén", email: "ailenaguinaga@conicet.gov.ar" }
+        ]
+      },
+      {
+        id: "GT 02.14",
+        time: "9:00 - 11:00",
+        title: "Investigación formativa en Ciencias de la Educación: identificación de áreas temáticas predominantes en producciones estudiantiles de la Universidad Nacional del Sur",
+        authors: [
+          { name: "Saenz, Francisco", email: "francisco.saenz@uns.edu.ar" },
+          { name: "Agarraberes, María Paz", email: "mpazagarraberes@gmail.com" },
+          { name: "Pergolesi Fuentes, Huilén", email: "huilenpergolesifuentes@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.16",
+        time: "9:00 - 11:00",
+        title: "Decisiones orientadas a la formación de capacidades científicas en carreras de grado en ciencias económicas: recursos pedagógicos para su desarrollo.",
+        authors: [
+          { name: "Schifrin, Antonella", email: "aschifrin@unlam.edu.ar" },
+          { name: "Ragusa, Facundo Luis", email: "fragusa@unlam.edu.ar" }
+        ]
+      },
+      {
+        id: "GT 02.18",
+        time: "9:00 - 11:00",
+        title: "La enseñanza del estado de la cuestión en la formación en investigación en carreras de grado. Una indagación sobre la propuesta de formación de la cátedra Investigación educativa I de la FaHCE-UNLP",
+        authors: [
+          { name: "Atairo, Daniela", email: "atairodaniela@gmail.com" },
+          { name: "Luques, Agustina", email: "agusluques@gmail.com" },
+          { name: "Elia, Thomas", email: "thomas2003elia@gmail.com" }
+        ]
+      },
+
+      // Bloque 2
+      {
+        id: "GT 02.03",
+        time: "11:00 - 13:00",
+        title: "La enseñanza y el aprendizaje de los procesos investigativos en los posgrados. El caso de la Maestría en Práctica Docente de la Facultad de Humanidades y Artes-UNR",
+        authors: [
+          { name: "Sanjurjo, Liliana Olga", email: "lilianaolgasanjurjo@gmail.com" },
+          { name: "Placci, Norma Argentina", email: "nbplaccisavio@gmail.com" },
+          { name: "Caporossi, Alicia Rosa", email: "aliciarosacaporossi@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.08",
+        time: "11:00 - 13:00",
+        title: "Doctorados en Educación en Argentina: ¿Aporte a la excelencia del conocimiento o extensión de la escolarización?",
+        authors: [
+          { name: "Lusquiños, Corina", email: "clusquinos@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.13",
+        time: "11:00 - 13:00",
+        title: "Formarse para investigar: mediaciones y redes en las trayectorias de mujeres primera generación universitaria",
+        authors: [
+          { name: "Ruiz Diaz, Fernanda Abril", email: "ruizdiazfernanda84@gmail.com" },
+          { name: "Flores, Miriam Liset", email: "miriamliset20@gmail.com" },
+          { name: "Silvestri, Lisel", email: "sillisela@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.15",
+        time: "11:00 - 13:00",
+        title: "La formación de investigadores en educación en el NOA: un mapeo en construcción",
+        authors: [
+          { name: "Chiliguay, Nancy Edith", email: "Chiliguaynancy@gmail.com" },
+          { name: "Alvarez, Andrea Beatriz", email: "abalvarez@fhycs.unju.edu.ar" }
+        ]
+      },
+      {
+        id: "GT 02.19",
+        time: "11:00 - 13:00",
+        title: "Proceso de Formación en los Programas de Posgrado Brasileños: El caso de la Facultad de Educación de la Universidade Estadual de Campinas, SP, UNICAMP.",
+        authors: [
+          { name: "Aguilar, Luis Enrique", email: "eaguilar@unicamp.br" },
+          { name: "André Luis Dolensko", email: "andreeduc@gmail.com" },
+          { name: "Edson Garcia Ferraz Jr.", email: "edsonferrazjr@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.20",
+        time: "11:00 - 13:00",
+        title: "Más allá de la metodología: formar para la investigación en educación desde experiencias situadas en posgrado",
+        authors: [
+          { name: "Di Lorenzo, Lorena", email: "lorenanataliadilorenzo@gmail.com" },
+          { name: "Baldivieso, Silvia", email: "silvia.baldivieso@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.21",
+        time: "11:00 - 13:00",
+        title: "Arte, empiria y colaboración: un dispositivo didáctico para la formación del oficio de investigar en el posgrado",
+        authors: [
+          { name: "Agulló, Marcela", email: "marceagullo@gmail.com" },
+          { name: "De Angelis, Susan", email: "susan.de.angelis@gmail.com" },
+          { name: "Monteverde, Ana Clara", email: "anaclaramonteverdegmail.com" }
+        ]
+      },
+
+      // Bloque 3
+      {
+        id: "GT 02.05",
+        time: "14:30 - 16:30",
+        title: "Cuando la tesis se vuelve diálogo: narrar la defensa doctoral como experiencia colectiva de formación",
+        authors: [
+          { name: "Vicini, Gustavo Damián", email: "gustavodamianvicini@gmail.com" },
+          { name: "Lapadula, María Florentina", email: "florentina.lapadula@gmail.com" },
+          { name: "Braun, Rodrigo Nicolás", email: "nicolasbraun01@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.06",
+        time: "14:30 - 16:30",
+        title: "Concepciones del rol de tutores noveles de maestría: un estudio en Ciencias Sociales y Humanas en Uruguay",
+        authors: [
+          { name: "Bentancur, Lilián", email: "lbentancur@claeh.edu.uy" }
+        ]
+      },
+      {
+        id: "GT 02.07",
+        time: "14:30 - 16:30",
+        title: "Qué agradecen los tesistas a sus directores en sus informes de trabajo final de carrera",
+        authors: [
+          { name: "Sgreccia, Natalia Fátima", email: "nataliasgreccia@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.10",
+        time: "14:30 - 16:30",
+        title: "Análisis del dispositivo para la enseñanza de la investigación educativa y el seguimiento de las trayectorias de los estudiantes en la Maestría en Gestión de la Educación en Entornos Digitales, Universidad Blas Pascal.",
+        authors: [
+          { name: "Moschetta, Valeria", email: "valeria_moschetta@ubp.edu.ar" },
+          { name: "Ruiz Juri, María", email: "mruizjuri@ubp.edu.ar" }
+        ]
+      },
+      {
+        id: "GT 02.11",
+        time: "14:30 - 16:30",
+        title: "¿Qué prácticas de enseñanza son valoradas por tesistas de posgrado en función de la escritura de la tesis? Una revisión de la literatura",
+        authors: [
+          { name: "Schiavinato, Nadia Soledad", email: "nadiaschiavinato@gmail.com" }
+        ]
+      },
+      {
+        id: "GT 02.12",
+        time: "14:30 - 16:30",
+        title: "La formación de investigadores en innovación educativa mediada por tecnologías",
+        authors: [
+          { name: "Sajoza Juric, Víctor Hugo", email: "victor.sajoza@unc.edu.ar" }
+        ]
+      },
+      {
+        id: "GT 02.22",
+        time: "14:30 - 16:30",
+        title: "Los grupos de escritura como espacios de formación para la investigación.",
+        authors: [
+          { name: "Colombo, Laura", email: "colombolaurama@gmail.com" },
+          { name: "Iglesias, Andrea", email: "andreaigleasiastics@gmail.com" }
+        ]
+      }
+    ];
+
+    // 2. Estado de la aplicación
+    let currentFilter = 'all';
+    let searchQuery = '';
+    let viewMode = 'cards'; // 'cards' o 'table'
+    let favorites = JSON.parse(localStorage.getItem('gt_favorites') || '[]');
+
+    // 3. Renderizado principal
+    function render() {
+      updateFavoritesCounter();
+      const container = document.getElementById('sessionsContainer');
+      const emptyState = document.getElementById('emptyState');
+      container.innerHTML = '';
+
+      // Filtrar por término de búsqueda y pestaña activa
+      const filteredPapers = papers.filter(p => {
+        const matchesTab = (currentFilter === 'all') 
+          ? true 
+          : (currentFilter === 'favorites') 
+            ? favorites.includes(p.id) 
+            : p.time === currentFilter;
+
+        if (!matchesTab) return false;
+
+        if (!searchQuery) return true;
+        const q = searchQuery.toLowerCase();
+        const inId = p.id.toLowerCase().includes(q);
+        const inTitle = p.title.toLowerCase().includes(q);
+        const inAuthors = p.authors.some(a => a.name.toLowerCase().includes(q) || a.email.toLowerCase().includes(q));
+        return inId || inTitle || inAuthors;
+      });
+
+      document.getElementById('resultsCount').textContent = `Mostrando ${filteredPapers.length} de ${papers.length} ponencias`;
+
+      if (filteredPapers.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      } else {
+        emptyState.classList.add('hidden');
+      }
+
+      // Agrupar ponencias filtradas por horario
+      const timeSlots = ["9:00 - 11:00", "11:00 - 13:00", "14:30 - 16:30"];
+      
+      timeSlots.forEach(slot => {
+        const slotPapers = filteredPapers.filter(p => p.time === slot);
+        if (slotPapers.length === 0) return;
+
+        const meta = sessionMetadata[slot];
+
+        // Crear contenedor de bloque
+        const blockSection = document.createElement('section');
+        blockSection.className = 'space-y-4';
+
+        // Cabecera del bloque con moderadores
+        const blockHeader = `
+          <div class="bg-gradient-to-r from-slate-100 to-indigo-50/50 border-l-4 border-brand-600 rounded-r-xl p-4 sm:p-5 shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-2.5">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-600 text-white text-xs font-bold tracking-wide">
+                  ⏰ ${slot}
+                </span>
+                <h2 class="text-base sm:text-lg font-bold text-slate-800">
+                  ${meta.eje}
+                </h2>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">
+                ${slotPapers.length} ${slotPapers.length === 1 ? 'trabajo' : 'trabajos'}
+              </span>
+            </div>
+            <div class="mt-2 text-xs text-slate-600 flex items-center gap-1.5">
+              <span class="font-semibold text-brand-800">Coordinación:</span>
+              <span>${meta.coordinacion}</span>
+            </div>
+          </div>
+        `;
+
+        blockSection.innerHTML = blockHeader;
+
+        // Renderizado según modo (Tarjetas o Tabla)
+        if (viewMode === 'cards') {
+          const grid = document.createElement('div');
+          grid.className = 'grid grid-cols-1 gap-4';
+
+          slotPapers.forEach(p => {
+            const isFav = favorites.includes(p.id);
+            const card = document.createElement('div');
+            card.className = `card-print bg-white rounded-xl p-5 border transition-all duration-200 hover:shadow-md ${isFav ? 'border-amber-300 ring-1 ring-amber-200' : 'border-slate-200/80'}`;
+
+            const authorsHtml = p.authors.map(a => `
+              <div class="flex flex-wrap items-center justify-between gap-2 py-1 border-b border-slate-50 last:border-0 text-xs">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-[10px]">
+                    ${a.name.charAt(0)}
+                  </span>
+                  <span class="font-medium text-slate-700">${highlightText(a.name, searchQuery)}</span>
+                </div>
+                <div class="flex items-center gap-1.5 no-print">
+                  <a href="mailto:${a.email}" class="text-indigo-600 hover:text-indigo-800 hover:underline inline-flex items-center gap-1 text-[11px]" title="Enviar correo">
+                    ${highlightText(a.email, searchQuery)}
+                  </a>
+                  <button onclick="copyToClipboard('${a.email}')" class="p-1 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-100" title="Copiar correo">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  </button>
+                </div>
+              </div>
+            `).join('');
+
+            card.innerHTML = `
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="px-2 py-0.5 rounded bg-indigo-50 border border-indigo-200 text-indigo-700 font-mono text-xs font-semibold">
+                    ${p.id}
+                  </span>
+                  <span class="text-xs text-slate-400">• Jueves 01/10</span>
+                </div>
+                <button onclick="toggleFavorite('${p.id}')" class="no-print p-1 text-slate-300 hover:text-amber-500 transition ${isFav ? 'text-amber-400' : ''}" title="${isFav ? 'Quitar de mi agenda' : 'Guardar en mi agenda'}">
+                  <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                </button>
+              </div>
+
+              <h3 class="text-base font-bold text-slate-800 leading-snug hover:text-brand-700 transition">
+                ${highlightText(p.title, searchQuery)}
+              </h3>
+
+              <div class="mt-4 pt-3 border-t border-slate-100 space-y-1">
+                <span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase block mb-1">Autoría:</span>
+                ${authorsHtml}
+              </div>
+            `;
+            grid.appendChild(card);
+          });
+          blockSection.appendChild(grid);
+        } else {
+          // Vista en formato Tabla compacta
+          const tableWrap = document.createElement('div');
+          tableWrap.className = 'bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-xs';
+          
+          let rowsHtml = slotPapers.map(p => {
+            const isFav = favorites.includes(p.id);
+            const authorsStr = p.authors.map(a => `<span class="block">${a.name} <span class="text-slate-400 text-[11px]">&lt;${a.email}&gt;</span></span>`).join('');
+            return `
+              <tr class="border-b border-slate-100 hover:bg-slate-50/70 text-xs">
+                <td class="p-3 font-mono font-bold text-brand-700 whitespace-nowrap">${p.id}</td>
+                <td class="p-3 font-semibold text-slate-800 max-w-md">${highlightText(p.title, searchQuery)}</td>
+                <td class="p-3 text-slate-600">${authorsStr}</td>
+                <td class="p-3 text-right no-print">
+                  <button onclick="toggleFavorite('${p.id}')" class="p-1 ${isFav ? 'text-amber-500' : 'text-slate-300 hover:text-amber-500'}">★</button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+
+          tableWrap.innerHTML = `
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                  <th class="p-3">ID</th>
+                  <th class="p-3">Título de la Ponencia</th>
+                  <th class="p-3">Autores y Correos</th>
+                  <th class="p-3 text-right no-print">Agenda</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rowsHtml}
+              </tbody>
+            </table>
+          `;
+          blockSection.appendChild(tableWrap);
+        }
+
+        container.appendChild(blockSection);
+      });
+    }
+
+    // 4. Funciones auxiliares (Filtros, Búsqueda, Favoritos)
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.dataset.filter === filter) {
+          btn.className = 'tab-btn active px-3.5 py-1.5 rounded-lg font-medium transition bg-brand-600 text-white';
+        } else {
+          btn.className = 'tab-btn px-3.5 py-1.5 rounded-lg font-medium transition bg-slate-100 text-slate-600 hover:bg-slate-200';
+        }
+      });
+      const label = filter === 'all' ? 'Todas las sesiones' : filter === 'favorites' ? '⭐ Mi Agenda' : `Bloque ${filter}`;
+      document.getElementById('activeFilterLabel').textContent = `Filtro: ${label}`;
+      render();
+    }
+
+    function setViewMode(mode) {
+      viewMode = mode;
+      const cardBtn = document.getElementById('viewCardsBtn');
+      const tableBtn = document.getElementById('viewTableBtn');
+      if (mode === 'cards') {
+        cardBtn.className = 'px-3 py-1.5 rounded-lg bg-white shadow-sm text-slate-800 transition';
+        tableBtn.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition';
+      } else {
+        tableBtn.className = 'px-3 py-1.5 rounded-lg bg-white shadow-sm text-slate-800 transition';
+        cardBtn.className = 'px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition';
+      }
+      render();
+    }
+
+    function toggleFavorite(id) {
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(fId => fId !== id);
+      } else {
+        favorites.push(id);
+      }
+      localStorage.setItem('gt_favorites', JSON.stringify(favorites));
+      render();
+    }
+
+    function updateFavoritesCounter() {
+      const count = favorites.length;
+      document.getElementById('favBtnCount').textContent = count;
+      document.getElementById('savedCountBadge').textContent = `${count} guardadas`;
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      searchQuery = '';
+      document.getElementById('clearSearch').classList.add('hidden');
+      setFilter('all');
+    }
+
+    function highlightText(text, query) {
+      if (!query || !text) return text;
+      const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      return text.replace(regex, '<span class="highlight">$1</span>');
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = `Copiado: ${text}`;
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        setTimeout(() => {
+          toast.classList.add('translate-y-20', 'opacity-0');
+        }, 2200);
+      });
+    }
+
+    // 5. Event Listeners
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearch');
+
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      if (searchQuery.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      render();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      clearBtn.classList.add('hidden');
+      render();
+    });
+
+    // Iniciar
+    render();
+  </script>
+</body>
+</html>

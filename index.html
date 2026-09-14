@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VI Coloquio SAIE 2026 | GT Formación para la Investigación</title>
   
+  <!-- ICONO PARA LA PESTAÑA DEL NAVEGADOR -->
+  <link rel="icon" type="image/png" href="logo-saie.png" />
+  <link rel="apple-touch-icon" href="logo-saie.png" />
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -107,6 +111,7 @@
           "Desafíos para la investigación educativa en escenarios de crisis. Construyendo comunidades y futuros posibles."
         </p>
 
+        <!-- Fecha -->
         <div class="flex items-center mt-5 text-xs text-sky-100">
           <span class="flex items-center gap-1.5 bg-black/20 px-3 py-1.5 rounded-md border border-white/15 shadow-2xs font-medium backdrop-blur-xs">
             📅 Jueves 1º de octubre de 2026
@@ -155,7 +160,7 @@
     <div id="sessionsContainer" class="space-y-6"></div>
   </main>
 
-  <!-- FOOTER INSTITUCIONAL COMPLETO (SAIE) -->
+  <!-- FOOTER CON EL MISMO LOGO SAIE QUE EL HEADER -->
   <footer class="bg-blue-950 text-slate-300 border-t border-blue-900 py-12 mt-16 text-xs">
     <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
       
@@ -245,7 +250,7 @@
       { 
         id: "GT 02.01", 
         time: "9:00 - 11:00", 
-        title: "La formación para la investigación. Una discusión imprescindible en la educación universitaria argentina", // Corregido: educación
+        title: "La formación para la investigación. Una discusión imprescindible en la educación universitaria argentina",
         authors: [{ name: "Galvalisi, Celia Fabiana", email: "cgalvalisi@unvm.edu.ar" }],
         file: "GT 02.01 GALVALISI.pdf"
       },
@@ -399,6 +404,7 @@
     let searchQuery = '';
     let favorites = JSON.parse(localStorage.getItem('gt_favorites') || '[]');
     
+    // Iniciar con todos los bloques cerrados / colapsados por defecto
     const collapsedBlocks = {
       "9:00 - 11:00": true,
       "11:00 - 13:00": true,
